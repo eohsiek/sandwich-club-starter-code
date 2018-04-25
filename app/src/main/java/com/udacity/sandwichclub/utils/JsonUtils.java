@@ -16,19 +16,19 @@ public class JsonUtils {
         try {
             JSONObject sandwichJson = new JSONObject(json);
             JSONObject name = sandwichJson.getJSONObject("name");
-            String mainName = name.getString("mainName");
-            String placeOfOrigin = sandwichJson.getString("placeOfOrigin");
-            String description = sandwichJson.getString("description");
-            String image = sandwichJson.getString("image");
-            JSONArray namearray = name.getJSONArray("alsoKnownAs");
+            String mainName = name.optString("mainName");
+            String placeOfOrigin = sandwichJson.optString("placeOfOrigin");
+            String description = sandwichJson.optString("description");
+            String image = sandwichJson.optString("image");
+            JSONArray namearray = name.optJSONArray("alsoKnownAs");
             List<String> alsoKnownAs = new ArrayList<>();
             for (int i = 0; i < namearray.length(); i++) {
-                alsoKnownAs.add(namearray.getString(i));
+                alsoKnownAs.add(namearray.optString(i));
             }
-            JSONArray ingredientarray = sandwichJson.getJSONArray("ingredients");
+            JSONArray ingredientarray = sandwichJson.optJSONArray("ingredients");
             List<String> ingredients = new ArrayList<>();
             for (int i = 0; i < ingredientarray.length(); i++) {
-                ingredients.add(ingredientarray.getString(i));
+                ingredients.add(ingredientarray.optString(i));
             }
             return new Sandwich(mainName, alsoKnownAs, placeOfOrigin, description, image, ingredients);
         }  catch (JSONException e) {
